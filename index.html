@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$NAQA — Queen of the Desert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@400;600;700&family=Cairo:ital,wght@0,400;0,600;0,700;0,900&display=swap&subset=arabic" rel="stylesheet">
+<style>
+  :root {
+    --gold:#F5B800; --gold2:#D4880A; --gold3:#ffdf5e;
+    --dark:#080500; --dark2:#110c00; --dark3:#1e1500; --cream:#fff8e7;
+  }
+  html,body {margin:0;padding:0;}
+  *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
+  html {scroll-behavior:smooth;}
+  body {
+    background:#080500 !important;
+    color:#fff8e7 !important;
+    font-family:'Rajdhani',sans-serif;
+    overflow-x:hidden;
+    cursor:none;
+  }
+  /* Reset ALL link styles */
+  a, a:link, a:visited, a:hover, a:active, a:focus {
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+  body.ar { font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif; }
+
+/* CRITICAL FIX: text-transform:uppercase breaks Arabic letter connections */
+/* Fix Arabic text - only target TEXT elements, not layout/buttons */
+body.ar p,
+body.ar li,
+body.ar .section-label,
+body.ar .section-title,
+body.ar .why-title,
+body.ar .why-text,
+body.ar .step-title,
+body.ar .step-text,
+body.ar .phase-num,
+body.ar .phase-name,
+body.ar .phase-items li,
+body.ar .toko-name,
+body.ar .toko-amount,
+body.ar .toko-purpose,
+body.ar .toko-detail-item .lbl,
+body.ar .hero-eyebrow,
+body.ar .hero-sub,
+body.ar .scroll-hint span,
+body.ar .footer-text,
+body.ar .about-badge {
+text-transform: none !important;
+letter-spacing: 0.3px !important;
+font-family: ‘Cairo’,‘Segoe UI’,Tahoma,Arial,sans-serif !important;
+}
+body.ar .btn-gold,
+body.ar .btn-outline,
+body.ar .social-btn span,
+body.ar .toko-notice,
+body.ar .nav-links li a,
+body.ar .lang-btn {
+font-family: ‘Cairo’,‘Segoe UI’,Tahoma,Arial,sans-serif !important;
+text-transform: none !important;
+letter-spacing: 1px !important;
+}
+body.ar .hero-title {
+font-family: ‘Cairo’,sans-serif !important;
+font-size: clamp(3.2rem,10vw,7rem) !important;
+font-weight: 900 !important;
+letter-spacing: 0 !important;
+}
+body.ar .toko-pct,
+body.ar .toko-detail-item .val {
+font-family: ‘Cairo’,sans-serif !important;
+font-weight: 900 !important;
+letter-spacing: 0 !important;
+}
+/* Fix about-badge in RTL */
+[dir=“rtl”] .about-badge {
+right: 8px !important;
+left: auto !important;
+transform: none !important;
+bottom: 8px !important;
+white-space: nowrap !important;
+}
+@media(max-width:860px) {
+.about-badge { display: none !important; }
+}
+
+.cursor {width:16px;height:16px;border:2px solid #F5B800;border-radius:50%;
+position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+transition:transform 0.15s ease;transform:translate(-50%,-50%);}
+.cursor.active {transform:translate(-50%,-50%) scale(2);background:rgba(245,184,0,0.15);}
+
+/* NOISE */
+body::before {content:’’;position:fixed;inset:0;
+background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 200 200’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.85’ numOctaves=‘4’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events:none;z-index:1;opacity:0.3;}
+
+/* ── NAV ── */
+nav {
+position:fixed;top:0;left:0;right:0;z-index:200;
+display:flex;align-items:center;justify-content:space-between;
+padding:14px 40px;
+background:rgba(8,5,0,0.97);
+border-bottom:1px solid rgba(245,184,0,0.08);
+direction:ltr !important;
+}
+.nav-left {display:flex;align-items:center;gap:10px;cursor:pointer;}
+.nav-left img {height:34px;width:auto;filter:drop-shadow(0 0 6px rgba(245,184,0,0.5));}
+.nav-left span {
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:1.8rem;letter-spacing:4px;
+color:#F5B800 !important;
+text-shadow:0 0 20px rgba(245,184,0,0.4);
+}
+.nav-right {display:flex;align-items:center;gap:24px;}
+.nav-links {display:flex;gap:22px;list-style:none;}
+.nav-links li a {
+color:#fff8e7 !important;
+font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+font-weight:600;transition:color 0.2s;cursor:pointer;
+font-family:‘Rajdhani’,sans-serif;
+}
+.nav-links li a:hover {color:#F5B800 !important;}
+.lang-toggle {
+display:flex;border:1.5px solid rgba(245,184,0,0.35);border-radius:20px;overflow:hidden;
+}
+.lang-btn {
+padding:5px 13px;font-size:0.78rem;font-weight:700;
+background:transparent;border:none;color:rgba(255,248,231,0.45);
+cursor:pointer;transition:all 0.2s;font-family:‘Rajdhani’,sans-serif;
+}
+.lang-btn.active {background:#F5B800;color:#000;}
+
+/* ── HERO ── */
+#hero {
+min-height:100vh;display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+position:relative;overflow:hidden;text-align:center;
+padding:100px 24px 60px;
+}
+.stars {position:absolute;inset:0;pointer-events:none;z-index:0;
+background:
+radial-gradient(1px 1px at 10% 12%,rgba(255,220,80,0.9) 0%,transparent 100%),
+radial-gradient(1px 1px at 22% 7%,rgba(255,220,80,0.6) 0%,transparent 100%),
+radial-gradient(1.5px 1.5px at 38% 18%,rgba(255,220,80,0.8) 0%,transparent 100%),
+radial-gradient(1px 1px at 53% 4%,rgba(255,220,80,0.5) 0%,transparent 100%),
+radial-gradient(1px 1px at 68% 10%,rgba(255,220,80,0.7) 0%,transparent 100%),
+radial-gradient(1.5px 1.5px at 83% 16%,rgba(255,220,80,0.8) 0%,transparent 100%),
+radial-gradient(1px 1px at 91% 6%,rgba(255,220,80,0.5) 0%,transparent 100%),
+radial-gradient(1px 1px at 6% 32%,rgba(255,220,80,0.4) 0%,transparent 100%),
+radial-gradient(1px 1px at 76% 35%,rgba(255,220,80,0.5) 0%,transparent 100%);}
+.dunes {
+position:absolute;bottom:0;left:0;right:0;height:38%;
+background:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ viewBox=‘0 0 1440 320’ preserveAspectRatio=‘none’%3E%3Cpath fill=’%231e1500’ fill-opacity=‘0.6’ d=‘M0,224L80,208C160,192,320,160,480,170.7C640,181,800,235,960,245.3C1120,256,1280,224,1360,208L1440,192L1440,320L0,320Z’/%3E%3C/svg%3E”) no-repeat bottom/cover;
+pointer-events:none;z-index:0;}
+.hero-glow {
+position:absolute;width:550px;height:550px;
+background:radial-gradient(circle,rgba(245,184,0,0.15) 0%,transparent 70%);
+border-radius:50%;top:45%;left:50%;transform:translate(-50%,-50%);
+pointer-events:none;z-index:0;
+animation:pulseGlow 4s ease-in-out infinite;}
+@keyframes pulseGlow {0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}}
+
+.hero-logo {
+position:relative;z-index:2;
+width:min(380px,75vw);
+filter:drop-shadow(0 0 36px rgba(245,184,0,0.55)) drop-shadow(0 16px 50px rgba(0,0,0,0.9));
+animation:floatLogo 6s ease-in-out infinite;}
+@keyframes floatLogo {0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+
+.hero-eyebrow {
+position:relative;z-index:2;
+font-family:‘Cinzel Decorative’,serif;
+font-size:clamp(0.55rem,1.2vw,0.78rem);
+letter-spacing:7px;text-transform:uppercase;
+color:#D4880A !important;margin-top:-6px;margin-bottom:14px;}
+.hero-title {
+position:relative;z-index:2;
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:clamp(3.8rem,12vw,8.5rem);line-height:0.88;
+background:linear-gradient(135deg,#ffdf5e 0%,#F5B800 40%,#D4880A 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+animation:fadeUp 0.9s ease 0.2s both;}
+.hero-sub {
+position:relative;z-index:2;
+font-size:clamp(0.82rem,1.9vw,1.05rem);
+color:rgba(255,248,231,0.6) !important;
+letter-spacing:1px;margin:12px 0 32px;
+animation:fadeUp 0.9s ease 0.4s both;}
+
+/* ── BUTTONS — THE CRITICAL FIX ── */
+.btn-gold {
+display:inline-flex !important;
+align-items:center !important;justify-content:center !important;
+padding:12px 28px !important;
+background:linear-gradient(135deg,#F5B800,#D4880A) !important;
+color:#000 !important;
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:0.95rem !important;letter-spacing:2px !important;
+border:none !important;border-radius:4px !important;
+cursor:pointer !important;text-decoration:none !important;
+box-shadow:0 0 20px rgba(245,184,0,0.3) !important;
+transition:transform 0.2s,box-shadow 0.2s;
+white-space:nowrap !important;
+width:auto !important;max-width:220px !important;
+-webkit-text-fill-color:#000 !important;
+flex-shrink:0 !important;
+}
+.btn-gold:hover {transform:translateY(-2px) !important;box-shadow:0 0 36px rgba(245,184,0,0.55) !important;}
+
+.btn-outline {
+display:inline-flex !important;
+align-items:center !important;justify-content:center !important;
+padding:11px 26px !important;
+background:transparent !important;
+color:#F5B800 !important;
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:0.95rem !important;letter-spacing:2px !important;
+border:1.5px solid #F5B800 !important;border-radius:4px !important;
+cursor:pointer !important;text-decoration:none !important;
+transition:background 0.2s;
+white-space:nowrap !important;
+width:auto !important;max-width:220px !important;
+-webkit-text-fill-color:#F5B800 !important;
+flex-shrink:0 !important;
+}
+.btn-outline:hover {background:rgba(245,184,0,0.1) !important;}
+
+.hero-cta-row {
+position:relative;z-index:2;
+display:flex !important;flex-direction:row !important;
+gap:12px;flex-wrap:wrap;
+justify-content:center !important;align-items:center !important;
+animation:fadeUp 0.9s ease 0.6s both;
+width:100%;}
+
+.scroll-hint {
+position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;
+opacity:0.35;animation:fadeUp 0.9s ease 1.1s both;}
+.scroll-hint span {font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;color:#F5B800;}
+.scroll-arrow {width:18px;height:18px;border-right:2px solid #F5B800;border-bottom:2px solid #F5B800;
+transform:rotate(45deg);animation:bounce 1.5s ease-in-out infinite;}
+@keyframes bounce {0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+
+/* ── TICKER ── */
+.ticker {
+background:linear-gradient(90deg,#D4880A,#F5B800,#D4880A);
+padding:9px 0;overflow:hidden;position:relative;z-index:2;}
+.ticker-inner {
+display:flex;gap:50px;white-space:nowrap;
+animation:ticker 28s linear infinite;
+font-family:‘Bebas Neue’,sans-serif;font-size:0.95rem;letter-spacing:4px;color:#000;}
+@keyframes ticker {from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item::before {content:“✦ “;}
+
+/* ── SECTIONS ── */
+section {position:relative;z-index:2;}
+.section-label {
+font-family:‘Bebas Neue’,sans-serif;font-size:0.72rem;letter-spacing:8px;
+color:#D4880A;text-transform:uppercase;margin-bottom:8px;display:block;}
+.section-title {
+font-family:‘Cinzel Decorative’,serif;
+font-size:clamp(1.4rem,3vw,2.4rem);
+background:linear-gradient(135deg,#ffdf5e,#F5B800);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+margin-bottom:14px;line-height:1.2;display:block;}
+.section-body {
+font-size:0.98rem;line-height:1.8;
+color:rgba(255,248,231,0.62) !important;
+max-width:560px;font-weight:400;}
+.gold-divider {
+width:56px;height:2px;
+background:linear-gradient(90deg,transparent,#F5B800,transparent);
+margin:14px 0 22px;display:block;}
+
+/* ── ABOUT ── */
+#about {
+padding:110px 50px;
+display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;
+max-width:1160px;margin:0 auto;}
+.about-visual {position:relative;display:flex;justify-content:center;}
+.about-visual img {
+width:100%;max-width:360px;
+filter:drop-shadow(0 0 45px rgba(245,184,0,0.32));
+animation:floatLogo 7s ease-in-out 1s infinite;}
+.about-badge {
+position:absolute;bottom:8px;right:8px;
+background:linear-gradient(135deg,#F5B800,#D4880A);
+color:#000 !important;padding:9px 18px;border-radius:3px;
+font-family:‘Bebas Neue’,sans-serif;font-size:0.95rem;letter-spacing:3px;
+box-shadow:0 6px 24px rgba(0,0,0,0.5);}
+
+/* ── WHY SOLANA ── */
+#why {padding:90px 50px;background:linear-gradient(180deg,#080500 0%,#1e1500 100%);}
+#why .inner {max-width:1160px;margin:0 auto;}
+.why-grid {
+display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:18px;margin-top:44px;}
+.why-card {
+background:rgba(30,21,0,0.75);
+border:1px solid rgba(245,184,0,0.12);
+border-radius:8px;padding:26px 22px;
+transition:border-color 0.3s,transform 0.3s;position:relative;overflow:hidden;}
+.why-card::before {
+content:’’;position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,transparent,#F5B800,transparent);}
+.why-card:hover {border-color:rgba(245,184,0,0.4);transform:translateY(-4px);}
+.why-icon {font-size:1.9rem;margin-bottom:10px;}
+.why-icon img {width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(245,184,0,0.4));}
+.why-title {
+font-family:‘Bebas Neue’,sans-serif;font-size:1.15rem;letter-spacing:3px;
+color:#F5B800;margin-bottom:7px;display:block;}
+.why-text {font-size:0.88rem;color:rgba(255,248,231,0.52);line-height:1.65;}
+
+/* ── TOKENOMICS ── */
+#tokenomics {
+padding:110px 50px;
+background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(245,184,0,0.04) 0%,transparent 70%);
+text-align:center;}
+#tokenomics .inner {max-width:1060px;margin:0 auto;}
+.toko-grid {
+display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:18px;margin-bottom:50px;}
+.toko-card {
+background:linear-gradient(135deg,rgba(245,184,0,0.07),rgba(30,21,0,0.85));
+border:1px solid rgba(245,184,0,0.14);border-radius:8px;padding:26px 16px;
+text-align:center;transition:border-color 0.3s,transform 0.3s;
+position:relative;overflow:hidden;}
+.toko-card::before {
+content:’’;position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,transparent,#F5B800,transparent);}
+.toko-card:hover {border-color:rgba(245,184,0,0.5);transform:translateY(-6px);}
+.toko-pct {
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:3rem;line-height:1;
+background:linear-gradient(135deg,#ffdf5e,#D4880A);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+display:block;}
+.toko-name {
+font-size:0.72rem;letter-spacing:4px;text-transform:uppercase;
+color:#D4880A;margin:5px 0 3px;display:block;}
+.toko-amount {font-size:0.8rem;color:rgba(255,248,231,0.38);display:block;}
+.toko-purpose {font-size:0.76rem;color:rgba(255,248,231,0.28);margin-top:3px;font-style:italic;display:block;}
+.toko-details {display:flex;flex-wrap:wrap;justify-content:center;gap:26px;margin-top:18px;}
+.toko-detail-item {display:flex;flex-direction:column;align-items:center;gap:3px;}
+.toko-detail-item .val {
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:1.3rem;color:#F5B800;letter-spacing:2px;display:block;}
+.toko-detail-item .lbl {
+font-size:0.68rem;letter-spacing:3px;
+color:rgba(255,248,231,0.32);text-transform:uppercase;display:block;}
+.toko-notice {
+margin-top:36px;padding:16px 28px;
+border:1px solid rgba(245,184,0,0.2);border-radius:6px;
+font-family:‘Bebas Neue’,sans-serif;font-size:0.95rem;letter-spacing:3px;color:#F5B800;
+display:inline-block;}
+
+/* ── ROADMAP ── */
+#roadmap {padding:110px 50px;max-width:1160px;margin:0 auto;}
+.roadmap-grid {
+display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:18px;margin-top:44px;}
+.roadmap-phase {
+background:rgba(30,21,0,0.65);border:1px solid rgba(245,184,0,0.1);
+border-radius:8px;padding:26px 22px;
+transition:border-color 0.3s,transform 0.3s;}
+.roadmap-phase:hover {border-color:rgba(245,184,0,0.35);transform:translateY(-4px);}
+.phase-num {
+font-family:‘Bebas Neue’,sans-serif;font-size:0.72rem;letter-spacing:6px;
+color:#D4880A;margin-bottom:5px;display:block;}
+.phase-name {
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:1.35rem;letter-spacing:2px;color:#F5B800;margin-bottom:14px;display:block;}
+.phase-items {list-style:none;display:flex;flex-direction:column;gap:7px;}
+.phase-items li {
+font-size:0.87rem;color:rgba(255,248,231,0.58);
+padding-left:15px;position:relative;}
+.phase-items li::before {
+content:‘◆’;position:absolute;left:0;color:#D4880A;font-size:0.45rem;top:4px;}
+
+/* ── HOW TO BUY ── */
+#howtobuy {
+padding:110px 50px;
+background:linear-gradient(180deg,#080500 0%,#1e1500 100%);}
+#howtobuy .inner {max-width:1060px;margin:0 auto;}
+.steps {
+display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:22px;margin-top:44px;}
+.step {
+display:flex;flex-direction:column;gap:12px;padding:28px 24px;
+background:rgba(30,21,0,0.65);border:1px solid rgba(245,184,0,0.1);
+border-radius:8px;position:relative;overflow:hidden;
+transition:border-color 0.3s,transform 0.3s;}
+.step:hover {border-color:rgba(245,184,0,0.4);transform:translateY(-4px);}
+.step-num {
+font-family:‘Bebas Neue’,sans-serif;font-size:3.8rem;line-height:1;
+color:rgba(245,184,0,0.06);position:absolute;top:8px;right:16px;}
+.step-icon {font-size:1.9rem;}
+.step-title {
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:1.2rem;letter-spacing:3px;color:#F5B800;display:block;}
+.step-text {font-size:0.87rem;color:rgba(255,248,231,0.52);line-height:1.65;}
+
+/* ── COMMUNITY ── */
+#community {
+padding:110px 50px;
+background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(245,184,0,0.07) 0%,transparent 70%);
+text-align:center;}
+#community .inner {max-width:660px;margin:0 auto;}
+.social-row {display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:44px;}
+.social-btn {
+display:inline-flex !important;align-items:center;gap:9px;
+padding:13px 26px;border-radius:6px;
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:1rem;letter-spacing:2px;
+transition:transform 0.2s,box-shadow 0.2s;
+cursor:pointer;border:none;white-space:nowrap;
+text-decoration:none !important;
+}
+.social-btn:hover {transform:translateY(-4px);}
+.social-btn.telegram {
+background:linear-gradient(135deg,#2AABEE,#1a8bc4) !important;
+color:#fff !important;-webkit-text-fill-color:#fff !important;
+box-shadow:0 4px 24px rgba(42,171,238,0.25);}
+.social-btn.twitter {
+background:linear-gradient(135deg,#1DA1F2,#0d7abf) !important;
+color:#fff !important;-webkit-text-fill-color:#fff !important;
+box-shadow:0 4px 24px rgba(29,161,242,0.25);}
+.social-btn.community {
+background:linear-gradient(135deg,#4a9e6b,#2d7a4f) !important;
+color:#fff !important;-webkit-text-fill-color:#fff !important;
+box-shadow:0 4px 24px rgba(74,158,107,0.25);}
+.social-icon {font-size:1.2rem;}
+
+/* ── FOOTER ── */
+footer {
+padding:36px 50px;
+border-top:1px solid rgba(245,184,0,0.1);
+display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo {
+display:flex;align-items:center;gap:10px;}
+.footer-logo img {height:36px;width:auto;filter:drop-shadow(0 0 7px rgba(245,184,0,0.4));}
+.footer-logo span {
+font-family:‘Bebas Neue’,sans-serif !important;
+font-size:1.7rem;letter-spacing:4px;color:#F5B800 !important;}
+.footer-text {font-size:0.72rem;color:rgba(255,248,231,0.22);letter-spacing:1px;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal {opacity:0;transform:translateY(36px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible {opacity:1;transform:translateY(0);}
+
+/* Force Arabic characters to use Cairo regardless of font */
+:lang(ar) { font-family:‘Cairo’,‘Segoe UI’,Tahoma,Arial,sans-serif !important; }
+*[dir=“rtl”] { font-family:‘Cairo’,‘Segoe UI’,Tahoma,Arial,sans-serif !important; }
+
+/* ── RTL ── */
+[dir=“rtl”] .nav-links {flex-direction:row-reverse;}
+[dir=“rtl”] .about-badge {right:auto;left:8px;}
+[dir=“rtl”] .phase-items li {padding-left:0;padding-right:15px;}
+[dir=“rtl”] .phase-items li::before {left:auto;right:0;}
+[dir=“rtl”] .step {text-align:right;}
+[dir=“rtl”] .step-num {right:auto;left:16px;}
+body.ar * {font-family:‘Cairo’,sans-serif !important;}
+body.ar .hero-title,body.ar .toko-pct,body.ar .toko-detail-item .val {
+font-family:‘Cairo’,sans-serif !important;font-weight:900 !important;
+letter-spacing:0 !important;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px) {
+nav {padding:12px 18px;}
+.nav-links {display:none;}
+#about {grid-template-columns:1fr;padding:80px 20px;gap:36px;text-align:center;}
+.about-badge {right:auto;left:50%;transform:translateX(-50%);bottom:-8px;}
+#tokenomics,#howtobuy,#community,#roadmap,footer {padding-left:20px;padding-right:20px;}
+#why {padding-left:20px;padding-right:20px;}
+#why .inner {max-width:100%;}
+.gold-divider {margin-left:auto;margin-right:auto;}
+#howtobuy .inner {max-width:100%;}
+.hero-cta-row {flex-direction:row;}
+}
+</style>
+
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-left" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <img src="naqa-logo.png" alt="NAQA">
+    <span dir="ltr" style="unicode-bidi:embed;">$NAQA</span>
+  </div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})" data-en="About" data-ar="من نحن">About</a></li>
+      <li><a onclick="document.getElementById('tokenomics').scrollIntoView({behavior:'smooth'})" data-en="Tokenomics" data-ar="التوكينوميكس">Tokenomics</a></li>
+      <li><a onclick="document.getElementById('roadmap').scrollIntoView({behavior:'smooth'})" data-en="Roadmap" data-ar="خارطة الطريق">Roadmap</a></li>
+      <li><a onclick="document.getElementById('howtobuy').scrollIntoView({behavior:'smooth'})" data-en="Buy" data-ar="اشتري">Buy</a></li>
+      <li><a onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-en="Community" data-ar="المجتمع">Community</a></li>
+      <li><a onclick="openWhitepaper()" style="cursor:pointer;" data-en="Whitepaper" data-ar="الورقة البيضاء">Whitepaper</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">عر</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="stars"></div>
+  <div class="hero-glow"></div>
+  <div class="dunes"></div>
+  <img class="hero-logo" src="naqa-logo.png" alt="NAQA Queen of the Desert">
+  <p class="hero-eyebrow" data-en="First Arab Female Meme Coin · On Solana" data-ar="أول عملة ميم عربية أنثوية · على سولانا">First Arab Female Meme Coin · On Solana</p>
+  <h1 class="hero-title" dir="ltr" style="unicode-bidi:embed;">$NAQA</h1>
+  <p class="hero-sub" data-en="Queen of the Desert · Fair Launch · 0% Tax · No Presale · No VC" data-ar="ملكة الصحراء · إطلاق عادل · صفر ضريبة · لا بيع مسبق">Queen of the Desert · Fair Launch · 0% Tax · No Presale · No VC</p>
+  <div class="hero-cta-row">
+    <button class="btn-gold" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-en="Join the Kingdom" data-ar="انضم للمملكة">Join the Kingdom</button>
+    <button class="btn-outline" onclick="document.getElementById('tokenomics').scrollIntoView({behavior:'smooth'})" data-en="Tokenomics" data-ar="التوكينوميكس">Tokenomics</button>
+    <button class="btn-outline" onclick="openWhitepaper()" data-en="📄 Whitepaper" data-ar="📄 الورقة البيضاء" style="text-decoration:none;">📄 Whitepaper</a>
+  </div>
+  <div class="scroll-hint">
+    <span data-en="Scroll" data-ar="تمرير">Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+
+<div class="ticker">
+  <div class="ticker-inner" dir="ltr">
+    <span class="ticker-item">$NAQA</span>
+    <span class="ticker-item">Queen of the Desert</span>
+    <span class="ticker-item">ملكة الصحراء</span>
+    <span class="ticker-item">Built on Solana</span>
+    <span class="ticker-item">Fair Launch</span>
+    <span class="ticker-item">0% Tax</span>
+    <span class="ticker-item">1,000,000,000 Supply</span>
+    <span class="ticker-item">pump.fun</span>
+    <span class="ticker-item">No Presale · No VC</span>
+    <span class="ticker-item">$NAQA</span>
+    <span class="ticker-item">Queen of the Desert</span>
+    <span class="ticker-item">ملكة الصحراء</span>
+    <span class="ticker-item">Built on Solana</span>
+    <span class="ticker-item">Fair Launch</span>
+    <span class="ticker-item">0% Tax</span>
+    <span class="ticker-item">1,000,000,000 Supply</span>
+    <span class="ticker-item">pump.fun</span>
+    <span class="ticker-item">No Presale · No VC</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+
+<section id="about">
+  <div class="about-visual reveal">
+    <img src="naqa-logo.png" alt="NAQA Camel Queen">
+    <div class="about-badge" data-en="👑 Queen of the Desert" data-ar="👑 ملكة الصحراء">👑 Queen of the Desert</div>
+  </div>
+  <div class="reveal">
+    <span class="section-label" data-en="Who is $NAQA?" data-ar="من هي $NAQA؟">Who is $NAQA?</span>
+    <span class="section-title" data-en="From the Desert to the Blockchain Era" data-ar="من الصحراء إلى عالم البلوكشين">From the Desert to the Blockchain Era</span>
+    <span class="gold-divider"></span>
+    <p class="section-body" data-en="The camel is one of the most iconic symbols of the Arab world. She carried trade, memory, and civilization through the harshest deserts — earning her legendary title: Queen of the Desert." data-ar="تُعدّ الناقة واحدة من أكثر الرموز حضوراً في الوجدان العربي. عبرت أقسى الصحاري وحملت معها التجارة والذاكرة وملامح الحضارة، حتى استحقت لقبها الأسطوري: ملكة الصحراء.">The camel is one of the most iconic symbols of the Arab world. She carried trade, memory, and civilization through the harshest deserts — earning her legendary title: Queen of the Desert.</p>
+    <br>
+    <p class="section-body" data-en="Today, $NAQA carries that symbolism into Web3 as a culture-led meme coin on Solana. She doesn't need exaggeration — one sideways glance with those lashes is enough to own the room." data-ar="واليوم، تنقل ناقة هذا الرمز إلى عالم ويب 3 بوصفها عملة ميم تقودها الثقافة على سولانا. لا تحتاج إلى مبالغة — نظرة جانبية واحدة بتلك الرموش كفيلة بأن تجعل حضورها طاغياً.">Today, $NAQA carries that symbolism into Web3 as a culture-led meme coin on Solana. She doesn't need exaggeration — one sideways glance with those lashes is enough to own the room.</p>
+    <br>
+    <p class="section-body" style="color:#D4880A;font-style:italic;" data-en='"She Always Knew She'd Make It."' data-ar='"كانت تعلم دائماً أنها ستصل."'>"She Always Knew She'd Make It."</p>
+    <br><br>
+    <button class="btn-gold" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-en="Join the Kingdom" data-ar="انضم للمملكة">Join the Kingdom</button></div>
+  </div>
+</section>
+
+<!-- WHY SOLANA -->
+
+<section id="why">
+  <div class="inner">
+    <span class="section-label reveal" data-en="Why Solana?" data-ar="لماذا سولانا؟">Why Solana?</span>
+    <span class="section-title reveal" data-en="The Right Blockchain for the Queen" data-ar="البلوكشين المثالي للملكة">The Right Blockchain for the Queen</span>
+    <span class="gold-divider reveal"></span>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">⚡</div>
+        <span class="why-title" data-en="High Speed" data-ar="سرعة عالية">High Speed</span>
+        <p class="why-text" data-en="Fast execution and near-instant settlement. The queen doesn't wait." data-ar="تنفيذ سريع وتسوية شبه فورية. الملكة لا تنتظر.">Fast execution and near-instant settlement. The queen doesn't wait.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">💸</div>
+        <span class="why-title" data-en="Low Fees" data-ar="رسوم منخفضة">Low Fees</span>
+        <p class="why-text" data-en="Very low transaction costs. More value stays in the kingdom." data-ar="تكاليف معاملات منخفضة جداً. تبقى القيمة داخل المملكة.">Very low transaction costs. More value stays in the kingdom.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon"><img src="naqa-logo.png" style="width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(245,184,0,0.4));" alt="NAQA"></div>
+        <span class="why-title" data-en="Meme Ecosystem" data-ar="بيئة الميم">Meme Ecosystem</span>
+        <p class="why-text" data-en="Strong relevance for community-led launches. The home of meme culture." data-ar="ملاءمة قوية لإطلاقات تقودها المجتمع. وطن ثقافة الميم.">Strong relevance for community-led launches. The home of meme culture.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">💧</div>
+        <span class="why-title" data-en="Active Liquidity" data-ar="سيولة نشطة">Active Liquidity</span>
+        <p class="why-text" data-en="Access to active trading venues and infrastructure via pump.fun." data-ar="وصول إلى منصات تداول وبنية سيولة فعّالة عبر pump.fun.">Access to active trading venues and infrastructure via pump.fun.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+
+<section id="tokenomics">
+  <div class="inner">
+    <span class="section-label" data-en="Tokenomics" data-ar="التوكينوميكس">Tokenomics</span>
+    <span class="section-title" data-en="The Royal Treasury" data-ar="خزينة الملكة">The Royal Treasury</span>
+    <div class="toko-grid">
+      <div class="toko-card reveal">
+        <span class="toko-pct">80%</span>
+        <span class="toko-name" data-en="Liquidity Pool" data-ar="مجمع السيولة">Liquidity Pool</span>
+        <span class="toko-amount">800,000,000 $NAQA</span>
+        <span class="toko-purpose" data-en="Fair launch liquidity" data-ar="سيولة الإطلاق العادل">Fair launch liquidity</span>
+      </div>
+      <div class="toko-card reveal">
+        <span class="toko-pct">10%</span>
+        <span class="toko-name" data-en="Team" data-ar="الفريق">Team</span>
+        <span class="toko-amount">100,000,000 $NAQA</span>
+        <span class="toko-purpose" data-en="Locked for 6 months" data-ar="مقفل 6 أشهر">Locked for 6 months</span>
+      </div>
+      <div class="toko-card reveal">
+        <span class="toko-pct">5%</span>
+        <span class="toko-name" data-en="Burn 🔥" data-ar="حرق 🔥">Burn 🔥</span>
+        <span class="toko-amount">50,000,000 $NAQA</span>
+        <span class="toko-purpose" data-en="Periodic burn" data-ar="حرق دوري">Periodic burn</span>
+      </div>
+      <div class="toko-card reveal">
+        <span class="toko-pct">3%</span>
+        <span class="toko-name" data-en="Marketing" data-ar="التسويق">Marketing</span>
+        <span class="toko-amount">30,000,000 $NAQA</span>
+        <span class="toko-purpose" data-en="Growth and campaigns" data-ar="نمو وحملات">Growth and campaigns</span>
+      </div>
+      <div class="toko-card reveal">
+        <span class="toko-pct">2%</span>
+        <span class="toko-name" data-en="Reserve" data-ar="الاحتياطي">Reserve</span>
+        <span class="toko-amount">20,000,000 $NAQA</span>
+        <span class="toko-purpose" data-en="Future listings" data-ar="إدراجات مستقبلية">Future listings</span>
+      </div>
+    </div>
+    <div class="toko-details reveal">
+      <div class="toko-detail-item"><span class="val">1,000,000,000</span><span class="lbl" data-en="Total Supply" data-ar="إجمالي العرض">Total Supply</span></div>
+      <div class="toko-detail-item"><span class="val">0%</span><span class="lbl" data-en="Buy / Sell Tax" data-ar="ضريبة الشراء/البيع">Buy / Sell Tax</span></div>
+      <div class="toko-detail-item"><span class="val">SOLANA</span><span class="lbl" data-en="Blockchain" data-ar="البلوكشين">Blockchain</span></div>
+      <div class="toko-detail-item"><span class="val" data-en="FAIR LAUNCH" data-ar="إطلاق عادل">FAIR LAUNCH</span><span class="lbl" data-en="Launch Type" data-ar="نوع الإطلاق">Launch Type</span></div>
+      <div class="toko-detail-item"><span class="val">PUMP.FUN</span><span class="lbl" data-en="Platform" data-ar="المنصة">Platform</span></div>
+    </div>
+    <div class="reveal" style="margin-top:28px;">
+      <div class="toko-notice" data-en="No Presale · No VC · No Tax · Fair Launch Only" data-ar="لا بيع مسبق · لا مستثمرين · لا ضرائب · إطلاق عادل بالكامل">No Presale · No VC · No Tax · Fair Launch Only</div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+
+<section id="roadmap">
+  <span class="section-label reveal" data-en="Roadmap" data-ar="خارطة الطريق">Roadmap</span>
+  <span class="section-title reveal" data-en="The Queen's Journey" data-ar="رحلة الملكة">The Queen's Journey</span>
+  <span class="gold-divider reveal"></span>
+  <div class="roadmap-grid">
+    <div class="roadmap-phase reveal">
+      <span class="phase-num">Phase 01</span>
+      <span class="phase-name" data-en="Genesis" data-ar="التأسيس">Genesis</span>
+      <ul class="phase-items">
+        <li data-en="Launch official channels" data-ar="إطلاق المنصات الرسمية">Launch official channels</li>
+        <li data-en="Reveal visual identity" data-ar="التعريف بالهوية البصرية">Reveal visual identity</li>
+        <li data-en="Start meme-first content" data-ar="بدء محتوى الميم">Start meme-first content</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase reveal">
+      <span class="phase-num">Phase 02</span>
+      <span class="phase-name" data-en="Ignition" data-ar="الانطلاق">Ignition</span>
+      <ul class="phase-items">
+        <li data-en="Fair launch on pump.fun" data-ar="إطلاق عادل على pump.fun">Fair launch on pump.fun</li>
+        <li data-en="Activate marketing" data-ar="تفعيل التسويق">Activate marketing</li>
+        <li data-en="Expand touchpoints" data-ar="توسيع نقاط التفاعل">Expand touchpoints</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase reveal">
+      <span class="phase-num">Phase 03</span>
+      <span class="phase-name" data-en="Expansion" data-ar="التوسع">Expansion</span>
+      <ul class="phase-items">
+        <li data-en="Grow holder base naturally" data-ar="تنمية قاعدة الحاملين بصورة طبيعية">Grow holder base naturally</li>
+        <li data-en="Develop partnerships" data-ar="توسيع الشراكات">Develop partnerships</li>
+        <li data-en="Run NAQA meme campaigns" data-ar="تنفيذ حملات ميم خاصة بناقة">Run NAQA meme campaigns</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase reveal">
+      <span class="phase-num">Phase 04</span>
+      <span class="phase-name" data-en="Domination" data-ar="الريادة">Domination</span>
+      <ul class="phase-items">
+        <li data-en="Pursue major listings (MEXC / Gate.io)" data-ar="السعي إلى إدراجات أكبر (MEXC / Gate.io)">Pursue major listings (MEXC / Gate.io)</li>
+        <li data-en="Launch official products" data-ar="إطلاق منتجات رسمية">Launch official products</li>
+        <li data-en="Strengthen global visibility" data-ar="تعزيز الحضور العالمي">Strengthen global visibility</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO BUY -->
+
+<section id="howtobuy">
+  <div class="inner">
+    <span class="section-label reveal" data-en="How to Buy" data-ar="كيف تشتري">How to Buy</span>
+    <span class="section-title reveal" data-en="Join the Kingdom in 4 Steps" data-ar="انضم للمملكة في 4 خطوات">Join the Kingdom in 4 Steps</span>
+    <span class="gold-divider reveal"></span>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-icon">📱</div>
+        <span class="step-title" data-en="Get a Wallet" data-ar="احصل على محفظة">Get a Wallet</span>
+        <p class="step-text" data-en="Download Phantom or Solflare. Create your wallet and secure your seed phrase." data-ar="حمّل محفظة Phantom أو Solflare. أنشئ محفظتك واحفظ عبارة الاسترداد بأمان.">Download Phantom or Solflare. Create your wallet and secure your seed phrase.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="step-icon">◎</div>
+        <span class="step-title" data-en="Get SOL" data-ar="احصل على SOL">Get SOL</span>
+        <p class="step-text" data-en="Buy SOL from Binance, Coinbase, or any exchange and send to your Phantom wallet." data-ar="اشتر SOL من Binance أو Coinbase أو أي بورصة وأرسله إلى محفظة Phantom.">Buy SOL from Binance, Coinbase, or any exchange and send to your Phantom wallet.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-icon">🔁</div>
+        <span class="step-title" data-en="Go to pump.fun" data-ar="توجه إلى pump.fun">Go to pump.fun</span>
+        <p class="step-text" data-en="At launch, go to pump.fun and search $NAQA. Contract address will be announced on Twitter and Telegram." data-ar="عند الإطلاق، توجه إلى pump.fun وابحث عن $NAQA. سيُعلن عن العنوان عبر تويتر وتيليغرام.">At launch, go to pump.fun and search $NAQA. Contract address will be announced on Twitter and Telegram.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div class="step-icon">👑</div>
+        <span class="step-title" data-en="Welcome to the Kingdom" data-ar="أهلاً بك في المملكة">Welcome to the Kingdom</span>
+        <p class="step-text" data-en="You now hold $NAQA. Join Telegram and Twitter to ride with the queen." data-ar="أنت الآن تحمل $NAQA. انضم إلى تيليغرام وتويتر وانطلق مع الملكة.">You now hold $NAQA. Join Telegram and Twitter to ride with the queen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+
+<section id="community">
+  <div class="inner">
+    <span class="section-label reveal" data-en="Community" data-ar="المجتمع">Community</span>
+    <span class="section-title reveal" data-en="The Queen's Court" data-ar="مجتمع الملكة">The Queen's Court</span>
+    <span class="gold-divider reveal" style="margin:14px auto 20px;"></span>
+    <p class="section-body reveal" style="margin:0 auto 12px;" data-en="Built around transparent communication, fair launch principles, and community momentum. Arabic roots — global reach." data-ar="قائمة على تواصل شفاف ومبادئ إطلاق عادل. جذور عربية — انتشار عالمي.">Built around transparent communication, fair launch principles, and community momentum. Arabic roots — global reach.</p>
+    <p class="section-body reveal" style="margin:0 auto;color:#D4880A;" data-en="Follow us and join to stay ahead of the launch." data-ar="تابعنا وانضم لتكون أول من يعرف موعد الإطلاق.">Follow us and join to stay ahead of the launch.</p>
+    <div class="social-row reveal">
+      <a href="https://t.me/naqaqueen" target="_blank" class="social-btn telegram">
+        <span class="social-icon">✈️</span>
+        <span data-en="Telegram Channel" data-ar="قناة تيليغرام">Telegram Channel</span>
+      </a>
+      <a href="https://x.com/naqaqueen" target="_blank" class="social-btn twitter">
+        <span class="social-icon">𝕏</span>
+        <span data-en="Twitter / X" data-ar="تويتر">Twitter / X</span>
+      </a>
+      <a href="https://t.me/+CUF7mdVDtTwwZTc0" target="_blank" class="social-btn community">
+        <span class="social-icon">💬</span>
+        <span data-en="Community Group" data-ar="جروب المجتمع">Community Group</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">
+    <img src="naqa-logo.png" alt="NAQA">
+    <span dir="ltr" style="unicode-bidi:embed;">$NAQA</span>
+  </div>
+  <p class="footer-text" data-en="© 2026 $NAQA · Queen of the Desert · Built on Solana" data-ar="© 2026 $NAQA · ملكة الصحراء · مبنية على سولانا">© 2026 $NAQA · Queen of the Desert · Built on Solana</p>
+  <p class="footer-text" data-en="Meme coin for entertainment. Not financial advice. DYOR." data-ar="عملة ميم ترفيهية. ليست نصيحة مالية. ابحث بنفسك.">Meme coin for entertainment. Not financial advice. DYOR.</p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a,button,.nav-left,.lang-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Open Whitepaper
+  function openWhitepaper() {
+    window.open('https://naqamoka.github.io/Naqa-website/NAQA_Whitepaper.pdf', '_blank');
+  }
+
+  // Language switcher
+  function setLang(lang) {
+    const isAr = lang === 'ar';
+    document.getElementById('html-root').setAttribute('lang', lang);
+    document.getElementById('html-root').setAttribute('dir', isAr ? 'rtl' : 'ltr');
+    document.body.classList.toggle('ar', isAr);
+    document.getElementById('btn-en').classList.toggle('active', !isAr);
+    document.getElementById('btn-ar').classList.toggle('active', isAr);
+    document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+      el.textContent = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    });
+    document.title = isAr ? '$NAQA — ملكة الصحراء' : '$NAQA — Queen of the Desert';
+  }
+</script>
+
+</body>
+</html>
